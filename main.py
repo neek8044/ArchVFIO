@@ -4,6 +4,7 @@ import sys
 import os
 import platform
 
+
 cwd = os.getcwd()
 
 dots = [".  ", ".. ", "..."]
@@ -17,10 +18,13 @@ commands = {
     "Creating a GRUB backup file": "sudo cp /etc/default/grub /etc/default/grub.archvfiobackup",
     "Tweaking the GRUB config": "grub_iommu",
     "Verifying IOMMU groups": f"{cwd}/iommu.sh",
-    "Isolating the GPU": "vfio_conf"
+    "Isolating the GPU": "vfio_conf",
+    "Running mkinitcpio": "sudo mkinitcpio -g /boot/linux-archvfio.img"
 }
 
+
 doCPUloop = True
+
 while doCPUloop:
     cpu = input("Select the CPU brand of this machine: [1] Intel [2] AMD : ")
     if cpu == "1" or cpu.lower() == "amd":
@@ -61,6 +65,7 @@ def grub_iommu():
     with open("/etc/default/grub", "w") as file:
         file.writelines(lines)
 
+
 def vfio_conf():
     vfio_file = '/etc/modprobe.d/vfio.conf'
 
@@ -100,5 +105,7 @@ for i in commands:
         new_process(commands[f"{i}"], i, True)
     else:
         new_process(commands[f"{i}"], i)
+
+print("\nREBOOT TO APPLY CHANGES.")
 
 sys.exit(0)
