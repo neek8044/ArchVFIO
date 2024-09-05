@@ -19,14 +19,17 @@ commands = {
     "Verifying IOMMU groups": f"{cwd}/iommu.sh"
 }
 
-
-if "intel" in platform.processor().lower():
-    cpu = "intel"
-elif "amd" in platform.processor().lower():
-    cpu = "amd"
-else:
-    print("ERROR: Unsupported CPU brand. Only Intel and AMD work with this script.")
-    sys.exit(1)
+doCPUloop = True
+while doCPUloop:
+    cpu = input("Select the CPU brand of this machine: [1] Intel [2] AMD : ")
+    if cpu == "1" or cpu.lower() == "amd":
+        cpu = "amd"
+        doCPUloop = False
+    elif cpu == "2" or cpu.lower() == "intel":
+        cpu = "intel"
+        doCPUloop = False
+    else:
+        print("Selection invalid. Choose either Intel or AMD using '1' or '2', or by typing out the name of the brand.")
 
 
 def new_process(command, msg):
