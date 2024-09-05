@@ -1,4 +1,6 @@
 #!/bin/bash
+echo .
+echo .
 shopt -s nullglob
 for g in /sys/kernel/iommu_groups/*; do
     echo "IOMMU Group ${g##*/}:"
@@ -6,3 +8,5 @@ for g in /sys/kernel/iommu_groups/*; do
         echo -e "\t$(lspci -nns ${d##*/})"
     done;
 done;
+echo .
+echo .
