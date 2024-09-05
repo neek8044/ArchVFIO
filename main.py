@@ -2,7 +2,6 @@ import subprocess as s
 import time
 import sys
 import os
-import platform
 
 
 cwd = os.getcwd()
