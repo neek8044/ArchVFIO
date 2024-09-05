@@ -17,7 +17,7 @@ commands = {
     "Enabling virtlogd": "sudo systemctl enable virtlogd.socket",
     "Creating a GRUB backup file": "sudo cp /etc/default/grub /etc/default/grub.archvfiobackup",
     "Tweaking the GRUB config": "grub_iommu",
-    "Verifying IOMMU groups": f"{cwd}/iommu.sh",
+    "Verifying IOMMU groups": f"{cwd}/scripts/iommu.sh",
     "Isolating the GPU": "vfio_conf",
     "Running mkinitcpio": "sudo mkinitcpio -g /boot/linux-archvfio.img"
 }
@@ -113,7 +113,7 @@ for i in commands:
         print(i, end="")
         dmar_iommu()
         print("...OK")
-    elif commands[f"{i}"].endswith("/iommu.sh"):
+    elif commands[f"{i}"].endswith("/scripts/iommu.sh"):
         new_process(commands[f"{i}"], i, True)
     else:
         new_process(commands[f"{i}"], i)
