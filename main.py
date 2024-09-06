@@ -67,7 +67,7 @@ def grub_iommu():
 
 
 def vfio_conf():
-    vfio_file = '/etc/modprobe.d/vfio.conf'
+    vfio_file = "/etc/modprobe.d/vfio.conf"
 
     id1 = input("Type the ID of your GPU from the output window above: ")
     id2 = input("Type the ID of your GPU AUDIO device from the output window above: ")
@@ -79,24 +79,24 @@ def vfio_conf():
     ]
 
     if not os.path.exists(vfio_file):
-        with open(vfio_file, 'w') as file:
+        with open(vfio_file, "w") as file:
             for line in lines_to_add:
-                file.write(line + '\n')
+                file.write(line + "\n")
     else:
-        with open(vfio_file, 'r') as file:
+        with open(vfio_file, "r") as file:
             current_lines = file.readlines()
 
-        with open(vfio_file, 'a') as file:
+        with open(vfio_file, "a") as file:
             for line in lines_to_add:
                 if line not in current_lines:
-                    file.write(line + '\n')
+                    file.write(line + "\n")
 
 
 def dmar_iommu():
-    if "DMAR: IOMMU enabled" in s.getoutput("dmesg|grep -e DMAR -e IOMMU"):
+    if "DMAR: IOMMU enabled" in s.getoutput("sudo dmesg | grep -e DMAR -e IOMMU"):
         pass
     else:
-        print("CANNOT CONTINUE: VT-D/AMD-V is not enabled.")
+        print("\nCANNOT CONTINUE: VT-D/AMD-V is not enabled.")
         sys.exit(1)
 
 
@@ -118,6 +118,6 @@ for i in commands:
     else:
         new_process(commands[f"{i}"], i)
 
-print("\nREBOOT TO APPLY CHANGES.")
+print("\n\nREBOOT TO APPLY CHANGES.")
 
 sys.exit(0)
