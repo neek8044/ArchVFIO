@@ -1,3 +1,7 @@
+## This script is based on @k-amin07 's VFIO guide on GitHub Gists:
+## https://gist.github.com/k-amin07/47cb06e4598e0c81f2b42904c6909329
+
+
 import subprocess as s
 import time
 import sys
@@ -98,7 +102,7 @@ def vfio_conf():
 
 
 def dmar_iommu():
-    if "DMAR: IOMMU enabled" in s.getoutput("sudo dmesg | grep -e DMAR -e IOMMU"):
+    if "DMAR: IOMMU enabled" in s.getoutput(f"echo {sudo_password} | sudo -S dmesg | grep -e DMAR -e IOMMU"):
         pass
     else:
         print("\nCANNOT CONTINUE: VT-D/AMD-V is not enabled.")
