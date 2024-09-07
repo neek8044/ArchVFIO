@@ -4,22 +4,27 @@ import sys
 import os
 
 
+print("""sudo password is needed for the execution of commands.
+(no passwords will be saved, neither be sent to the internet. you are welcome to check the source for any concerns.)""")
+
+sudo_password = input("\nPlease Authenticate ( !!! prompt not hidden !!! ): ")
+
 cwd = os.getcwd()
 
 dots = [".  ", ".. ", "..."]
 
 commands = {
     "Checking for IOMMU VT-D/AMD-V compatibility": "dmar_iommu",
-    "Installing software": "sudo pacman -S libvirt virt-manager ovmf qemu",
-    "Starting libvirtd": "sudo systemctl start libvirtd.service",
-    "Starting virtlogd": "sudo systemctl start virtlogd.socket",
-    "Enabling libvirtd": "sudo systemctl enable libvirtd.service",
-    "Enabling virtlogd": "sudo systemctl enable virtlogd.socket",
-    "Creating a GRUB backup file": "sudo cp /etc/default/grub /etc/default/grub.archvfiobackup",
+    "Installing software": f"echo {sudo_password} | sudo -S pacman -S libvirt virt-manager ovmf qemu",
+    "Starting libvirtd": f"echo {sudo_password} | sudo -S systemctl start libvirtd.service",
+    "Starting virtlogd": f"echo {sudo_password} | sudo -S systemctl start virtlogd.socket",
+    "Enabling libvirtd": f"echo {sudo_password} | sudo -S systemctl enable libvirtd.service",
+    "Enabling virtlogd": f"echo {sudo_password} | sudo -S systemctl enable virtlogd.socket",
+    "Creating a GRUB backup file": f"echo {sudo_password} | sudo -S cp /etc/default/grub /etc/default/grub.archvfiobackup",
     "Tweaking the GRUB config": "grub_iommu",
     "Verifying IOMMU groups": f"{cwd}/scripts/iommu.sh",
     "Isolating the GPU": "vfio_conf",
-    "Running mkinitcpio": "sudo mkinitcpio -g /boot/linux-archvfio.img"
+    "Running mkinitcpio": f"echo {sudo_password} | sudo -S mkinitcpio -g /boot/linux-archvfio.img"
 }
 
 
