@@ -18,7 +18,6 @@ cwd = os.getcwd()
 dots = [".  ", ".. ", "..."]
 
 commands = {
-    "Checking for IOMMU VT-D/AMD-V compatibility": "dmar_iommu",
     "Installing software": f"echo {sudo_password} | sudo -S pacman -S libvirt virt-manager ovmf qemu",
     "Starting libvirtd": f"echo {sudo_password} | sudo -S systemctl start libvirtd.service",
     "Starting virtlogd": f"echo {sudo_password} | sudo -S systemctl start virtlogd.socket",
@@ -101,14 +100,6 @@ def vfio_conf():
                     file.write(line + "\n")
 
 
-def dmar_iommu():
-    if "DMAR: IOMMU enabled" in s.getoutput(f"echo {sudo_password} | sudo -S dmesg | grep -e DMAR -e IOMMU"):
-        pass
-    else:
-        print("\nCANNOT CONTINUE: VT-D/AMD-V is not enabled.")
-        sys.exit(1)
-
-
 for i in commands:
     if commands[f"{i}"] == "grub_iommu":
         print(i, end="")
@@ -117,10 +108,6 @@ for i in commands:
     elif commands[f"{i}"] == "vfio_conf":
         print(i, end="")
         vfio_conf()
-        print("...OK")
-    elif commands[f"{i}"] == "dmar_iommu":
-        print(i, end="")
-        dmar_iommu()
         print("...OK")
     elif commands[f"{i}"].endswith("/scripts/iommu.sh"):
         new_process(commands[f"{i}"], i, True)
